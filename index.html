@@ -1,10 +1,213 @@
-<html>
-  <head>
-    <title>Home page</title>
-  </head>
-  <body>
-    <h1>Bio collection for me (and friends)</h1>
-    <a href="people/mainline/index.html">MainLine</a>
-    <a href="people/malti/index.html">Malti</a>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Bios Directory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0f0f0f;
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .user-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .user-role {
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .user-bio {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-link {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            color: #646cff;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-card:nth-child(1) { animation-delay: 0.2s; }
+        .user-card:nth-child(2) { animation-delay: 0.4s; }
+        .user-card:nth-child(3) { animation-delay: 0.6s; }
+        .user-card:nth-child(4) { animation-delay: 0.8s; }
+
+        @media (max-width: 768px) {
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Meet Our Team</h1>
+            <p>Awesome people doing amazing things</p>
+        </div>
+
+        <div class="users-grid" id="usersContainer"></div>
+    </div>
+
+    <script>
+        // User data array - modify this with your users' information
+        const users = [
+            {
+                name: "Mainline",
+                role: "Java developer",
+                image: "https://tatsi.eu/people/mainline/images/bleh.jpg",
+                bio: "Passionate full-stack developer with 5+ years of experience building web applications. Loves open source and teaching others.",
+                social: {
+                    twitter: "#",
+                    github: "#",
+                    linkedin: "#"
+                }
+            },
+            {
+                name: "Heox",
+                role: "Java developer",
+                image: "https://media.discordapp.net/attachments/1345378557097939065/1348056409090297888/image.png?ex=67ce12dd&is=67ccc15d&hm=8bb61c396bae733061dc72d67634ed7147bad5cd947f9df06109f963b3b01241&=&format=webp&quality=lossless&width=870&height=870",
+                bio: "Creative designer focused on user-centered design. Enjoys creating beautiful and functional interfaces.",
+                social: {
+                    behance: "#",
+                    dribbble: "#",
+                    instagram: "#"
+                }
+            },
+            {
+                name: "ChatGpt",
+                role: "Marketing Lead",
+                image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fintegrio.net%2Fblog%2Ftraining-chatgpt-on-custom-data&psig=AOvVaw3JrO8R1apWrrJrP4ap6Oox&ust=1741558639053000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOjWo9LB-4sDFQAAAAAdAAAAABAJ",
+                bio: "our best friend.",
+                social: {
+                    linkedin: "#",
+                    twitter: "#",
+                    medium: "#"
+                }
+            }
+        ];
+
+        // Generate user cards
+        function generateUserCards() {
+            const container = document.getElementById('usersContainer');
+
+            users.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'user-card';
+
+                card.innerHTML = `
+                    <div class="user-image">
+                        <img src="${user.image}" alt="${user.name}">
+                    </div>
+                    <h2 class="user-name">${user.name}</h2>
+                    <p class="user-role">${user.role}</p>
+                    <p class="user-bio">${user.bio}</p>
+                    <div class="social-links">
+                        ${Object.entries(user.social).map(([platform, url]) => `
+                            <a href="${url}" class="social-link" target="_blank">
+                                <i class="fab fa-${platform}"></i>
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', generateUserCards);
+    </script>
+</body>
 </html>
