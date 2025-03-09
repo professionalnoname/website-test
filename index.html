@@ -3,211 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Bios Directory</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Software Repository</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: #0f0f0f;
-            color: white;
-            padding: 40px 20px;
+            background: #f8f9fa;
+            color: #2d3436;
+            padding: 2rem 1rem;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        .header {
+        h1 {
             text-align: center;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.8s ease forwards;
+            margin-bottom: 1.5rem;
+            color: #2d3436;
+            font-weight: normal;
         }
 
-        .users-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+        .folder {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .user-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        .user-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .user-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            overflow: hidden;
-            position: relative;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .user-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .user-name {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .user-role {
-            text-align: center;
-            color: #888;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
-
-        .user-bio {
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-        }
-
-        .social-links {
+        .folder-header {
+            padding: 1rem;
+            cursor: pointer;
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #eee;
         }
 
-        .social-link {
-            color: white;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
+        .folder-header:hover {
+            background: #f8f9fa;
+        }
+
+        .folder-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .folder-content {
+            padding: 0.5rem 1rem;
+            display: block;
+        }
+
+        .folder.collapsed .folder-content {
+            display: none;
+        }
+
+        .folder.collapsed .folder-icon {
+            transform: rotate(-90deg);
+        }
+
+        .file-item {
+            padding: 0.5rem 0;
+            display: block;
+            color: #2980b9;
             text-decoration: none;
+            margin-left: 24px;
         }
 
-        .social-link:hover {
-            color: #646cff;
+        .file-item:hover {
+            text-decoration: underline;
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .user-card:nth-child(1) { animation-delay: 0.2s; }
-        .user-card:nth-child(2) { animation-delay: 0.4s; }
-        .user-card:nth-child(3) { animation-delay: 0.6s; }
-        .user-card:nth-child(4) { animation-delay: 0.8s; }
-
-        @media (max-width: 768px) {
-            .users-grid {
-                grid-template-columns: 1fr;
-            }
+        .file-details {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-left: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Meet Our Team</h1>
-            <p>Awesome people doing amazing things</p>
+        <h1>Software Repository</h1>
+
+        <!-- Creative Suite Folder -->
+        <div class="folder">
+            <div class="folder-header" onclick="toggleFolder(this)">
+                <span class="folder-icon">▾</span>
+                <span>Sapphire</span>
+            </div>
+            <div class="folder-content">
+                <a href="#" class="file-item">
+                    v2.1
+                    <span class="file-details">0.0GB</span>
+                </a>
+                <a href="#" class="file-item">
+                    v2.2
+                    <span class="file-details">0.0GB</span>
+                </a>
+            </div>
         </div>
 
-        <div class="users-grid" id="usersContainer"></div>
+        <!-- Development Tools Folder -->
+        <div class="folder">
+            <div class="folder-header" onclick="toggleFolder(this)">
+                <span class="folder-icon">▾</span>
+                <span>Starlit</span>
+            </div>
+            <div class="folder-content">
+                <a href="https://tatsi.eu/cracks/starlit.zip" class="file-item">
+                    Starlit loader
+                    <span class="file-details">15MG</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Add more folders as needed -->
     </div>
 
     <script>
-        // User data array - modify this with your users' information
-        const users = [
-            {
-                name: "Mainline",
-                role: "Java developer",
-                image: "https://tatsi.eu/people/mainline/images/bleh.jpg",
-                bio: "Passionate full-stack developer with 5+ years of experience building web applications. Loves open source and teaching others.",
-                social: {
-                    twitter: "https://tatsi.eu/people/mainline/index.html",
-                    github: "https://tatsi.eu/people/mainline/index.html",
-                    linkedin: "https://tatsi.eu/people/mainline/index.html"
-                }
-            },
-            {
-                name: "Heox",
-                role: "Java developer",
-                image: "https://media.discordapp.net/attachments/1345378557097939065/1348056409090297888/image.png?ex=67ce12dd&is=67ccc15d&hm=8bb61c396bae733061dc72d67634ed7147bad5cd947f9df06109f963b3b01241&=&format=webp&quality=lossless&width=870&height=870",
-                bio: "Creative designer focused on user-centered design. Enjoys creating beautiful and functional interfaces.",
-                social: {
-                    behance: "https://tatsi.eu/people/malti/index.html",
-                    dribbble: "https://tatsi.eu/people/malti/index.html",
-                    instagram: "https://tatsi.eu/people/malti/index.html"
-                }
-            },
-            {
-                name: "ChatGpt",
-                role: "Marketing Lead",
-                image: "https://cdn.discordapp.com/attachments/1345378557097939065/1348066966321106995/ChatGPT-Logo.svg.png?ex=67ce1cb2&is=67cccb32&hm=9fa6cf5abdf81c0c927285ed5d41f7db8175f0af097d44bca666a5f11fddbeb2&",
-                bio: "our best friend.",
-                social: {
-                    linkedin: "#",
-                    twitter: "#",
-                    medium: "#"
-                }
-            }
-        ];
-
-        // Generate user cards
-        function generateUserCards() {
-            const container = document.getElementById('usersContainer');
-
-            users.forEach(user => {
-                const card = document.createElement('div');
-                card.className = 'user-card';
-
-                card.innerHTML = `
-                    <div class="user-image">
-                        <img src="${user.image}" alt="${user.name}">
-                    </div>
-                    <h2 class="user-name">${user.name}</h2>
-                    <p class="user-role">${user.role}</p>
-                    <p class="user-bio">${user.bio}</p>
-                    <div class="social-links">
-                        ${Object.entries(user.social).map(([platform, url]) => `
-                            <a href="${url}" class="social-link" target="_blank">
-                                <i class="fab fa-${platform}"></i>
-                            </a>
-                        `).join('')}
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
+        function toggleFolder(header) {
+            const folder = header.parentElement;
+            folder.classList.toggle('collapsed');
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', generateUserCards);
+        // Optional: Collapse all folders by default
+        document.querySelectorAll('.folder').forEach(folder => {
+            folder.classList.add('collapsed');
+        });
     </script>
 </body>
 </html>
