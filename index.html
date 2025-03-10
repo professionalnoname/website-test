@@ -87,54 +87,56 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Software Repository</h1>
+<div class="container">
+    <h1>Software Repository</h1>
+    <div id="repository">Loading...</div>
+</div>
 
-        <!-- Creative Suite Folder -->
-        <div class="folder">
-            <div class="folder-header" onclick="toggleFolder(this)">
-                <span class="folder-icon">▾</span>
-                <span>Sapphire</span>
-            </div>
-            <div class="folder-content">
-                <a href="#" class="file-item">
-                    v2.1
-                    <span class="file-details">0.0GB</span>
-                </a>
-                <a href="#" class="file-item">
-                    v2.2
-                    <span class="file-details">0.0GB</span>
-                </a>
-            </div>
-        </div>
+<script>
+    async function fetchRepository() {
+        try {
+            const response = await fetch('https://tatsi.eu/repo.json'); // Updated URL
+            if (!response.ok) throw new Error('Failed to load repository');
 
-        <!-- Development Tools Folder -->
-        <div class="folder">
-            <div class="folder-header" onclick="toggleFolder(this)">
-                <span class="folder-icon">▾</span>
-                <span>Starlit</span>
-            </div>
-            <div class="folder-content">
-                <a href="https://tatsi.eu/cracks/starlit.zip" class="file-item">
-                    Starlit loader
-                    <span class="file-details">15MG</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Add more folders as needed -->
-    </div>
-
-    <script>
-        function toggleFolder(header) {
-            const folder = header.parentElement;
-            folder.classList.toggle('collapsed');
+            const data = await response.json();
+            renderRepository(data.folders);
+        } catch (error) {
+            console.error('Error loading repository:', error);
+            document.getElementById('repository').innerHTML = '<p>Error loading repository.</p>';
         }
+    }
 
-        // Optional: Collapse all folders by default
-        document.querySelectorAll('.folder').forEach(folder => {
-            folder.classList.add('collapsed');
+    function renderRepository(folders) {
+        const container = document.getElementById('repository');
+        container.innerHTML = '';
+
+        folders.forEach(folder => {
+            const folderElement = document.createElement('div');
+            folderElement.className = 'folder collapsed';
+
+            const header = document.createElement('div');
+            header.className = 'folder-header';
+            header.innerHTML = `<span class="folder-icon">▾</span> <span>${folder.name}</span>`;
+            header.onclick = () => folderElement.classList.toggle('collapsed');
+
+            const content = document.createElement('div');
+            content.className = 'folder-content';
+
+            folder.files.forEach(file => {
+                const fileLink = document.createElement('a');
+                fileLink.href = file.url;
+                fileLink.className = 'file-item';
+                fileLink.innerHTML = `${file.name} <span class="file-details">${file.size}</span>`;
+                content.appendChild(fileLink);
+            });
+
+            folderElement.appendChild(header);
+            folderElement.appendChild(content);
+            container.appendChild(folderElement);
         });
-    </script>
+    }
+
+    fetchRepository();
+</script>
 </body>
 </html>
