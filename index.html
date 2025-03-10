@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Repository</title>
+    <meta name="color-scheme" content="dark"> <!-- Makes Dark Reader recognize dark mode -->
     <style>
         * {
             margin: 0;
@@ -13,8 +14,8 @@
         }
 
         body {
-            background: #f8f9fa;
-            color: #2d3436;
+            background: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
             padding: 2rem 1rem;
         }
 
@@ -26,16 +27,17 @@
         h1 {
             text-align: center;
             margin-bottom: 1.5rem;
-            color: #2d3436;
+            color: #e0e0e0;
             font-weight: normal;
         }
 
         .folder {
-            background: white;
+            background: #1e1e1e; /* Dark gray */
             border-radius: 8px;
             margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            border: 1px solid #333; /* Subtle border */
         }
 
         .folder-header {
@@ -44,11 +46,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #333;
+            color: #e0e0e0;
         }
 
         .folder-header:hover {
-            background: #f8f9fa;
+            background: #2a2a2a; /* Lighter gray */
         }
 
         .folder-icon {
@@ -65,7 +68,7 @@
         .file-item {
             padding: 0.5rem 0;
             display: block;
-            color: #2980b9;
+            color: #4dabf7; /* Soft blue */
             text-decoration: none;
             margin-left: 24px;
         }
@@ -75,7 +78,7 @@
         }
 
         .file-details {
-            color: #7f8c8d;
+            color: #b0b0b0; /* Lighter gray */
             font-size: 0.9rem;
             margin-left: 8px;
         }
