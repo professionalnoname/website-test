@@ -30,11 +30,15 @@
             background: var(--background);
             color: var(--foreground);
             padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
+            flex: 1;
         }
 
         h1 {
@@ -54,11 +58,9 @@
             100% { color: #F5C2E7; } /* Loop */
         }
 
-        /* Animated Rainbow on S & R */
         h1 span.rainbow {
             animation: rainbow 5s infinite alternate ease-in-out;
         }
-
 
         .folder {
             background: var(--folder-bg);
@@ -112,12 +114,24 @@
             font-size: 0.9rem;
             margin-left: 8px;
         }
+
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: var(--file-details);
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1><span class="rainbow">S</span>oftware <span class="rainbow">R</span>epository</h1>
     <div id="repository">Loading...</div>
+</div>
+
+<div class="footer">
+    "Remember me; Fuck the copyright"<br>
+    - jDev
 </div>
 
 <script>
