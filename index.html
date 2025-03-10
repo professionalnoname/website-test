@@ -35,6 +35,7 @@
             border-radius: 8px;
             margin-bottom: 1rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
         }
 
         .folder-header {
@@ -55,16 +56,10 @@
         }
 
         .folder-content {
-            padding: 0.5rem 1rem;
-            display: block;
-        }
-
-        .folder.collapsed .folder-content {
-            display: none;
-        }
-
-        .folder.collapsed .folder-icon {
-            transform: rotate(-90deg);
+            padding: 0 1rem;
+            overflow: hidden;
+            height: 0;
+            transition: height 0.3s ease-out;
         }
 
         .file-item {
@@ -112,12 +107,12 @@
 
         folders.forEach(folder => {
             const folderElement = document.createElement('div');
-            folderElement.className = 'folder collapsed';
+            folderElement.className = 'folder';
 
             const header = document.createElement('div');
             header.className = 'folder-header';
             header.innerHTML = `<span class="folder-icon">▾</span> <span>${folder.name}</span>`;
-            header.onclick = () => folderElement.classList.toggle('collapsed');
+            header.onclick = () => toggleFolder(folderElement);
 
             const content = document.createElement('div');
             content.className = 'folder-content';
@@ -134,6 +129,19 @@
             folderElement.appendChild(content);
             container.appendChild(folderElement);
         });
+    }
+
+    function toggleFolder(folder) {
+        const content = folder.querySelector('.folder-content');
+        const icon = folder.querySelector('.folder-icon');
+
+        if (content.style.height === '0px' || !content.style.height) {
+            content.style.height = content.scrollHeight + 'px';
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            content.style.height = '0px';
+            icon.style.transform = 'rotate(-90deg)';
+        }
     }
 
     fetchRepository();
