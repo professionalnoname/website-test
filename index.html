@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Repository</title>
-<<<<<<< HEAD
     <meta name="color-scheme" content="dark">
-=======
-    <meta name="color-scheme" content="dark"> <!-- Dark Reader Compatibility -->
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
     <style>
         /* Catppuccin Mocha + Lavender Theme */
         :root {
@@ -33,23 +29,15 @@
         body {
             background: var(--background);
             color: var(--foreground);
-<<<<<<< HEAD
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-=======
-            padding: 2rem 1rem;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
             flex: 1;
-<<<<<<< HEAD
             padding: 2rem 1rem;
             opacity: 0;
             transform: translateY(20px);
@@ -61,38 +49,22 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-=======
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         h1 {
             text-align: center;
             margin-bottom: 1.5rem;
-<<<<<<< HEAD
             font-weight: 300;
-=======
-            color: var(--foreground);
-            font-weight: normal;
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
             font-size: 2rem;
         }
 
         @keyframes rainbow {
-<<<<<<< HEAD
             0%   { color: #F5C2E7; }
             20%  { color: #B4BEFE; }
             40%  { color: #A6E3A1; }
             60%  { color: #F9E2AF; }
             80%  { color: #F38BA8; }
             100% { color: #F5C2E7; }
-=======
-            0%   { color: #F5C2E7; } /* Pink */
-            20%  { color: #B4BEFE; } /* Lavender */
-            40%  { color: #A6E3A1; } /* Green */
-            60%  { color: #F9E2AF; } /* Yellow */
-            80%  { color: #F38BA8; } /* Red */
-            100% { color: #F5C2E7; } /* Loop */
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         h1 span.rainbow {
@@ -103,7 +75,6 @@
             background: var(--folder-bg);
             border-radius: 8px;
             margin-bottom: 1rem;
-<<<<<<< HEAD
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
             border: 1px solid var(--border);
             opacity: 0;
@@ -116,11 +87,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-=======
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            border: 1px solid var(--border);
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         .folder-header {
@@ -129,12 +95,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-<<<<<<< HEAD
             transition: background 0.3s ease;
-=======
-            border-bottom: 1px solid var(--border);
-            color: var(--foreground);
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         .folder-header:hover {
@@ -142,30 +103,18 @@
         }
 
         .folder-icon {
-<<<<<<< HEAD
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-=======
-            transition: transform 0.3s ease-in-out;
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         .folder-content {
             max-height: 0;
             overflow: hidden;
-<<<<<<< HEAD
             transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-=======
-            height: 0;
-            transition: height 0.3s ease-in-out;
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         .file-item {
             display: block;
-<<<<<<< HEAD
             padding: 0.75rem 1rem;
-=======
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
             color: var(--link);
             text-decoration: none;
             transition: all 0.2s ease;
@@ -180,18 +129,12 @@
         }
 
         .file-item:hover {
-<<<<<<< HEAD
             background: rgba(180, 190, 254, 0.05);
             padding-left: 1.25rem;
-=======
-            text-decoration: underline;
-            color: var(--link-hover);
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
         }
 
         .file-details {
             color: var(--file-details);
-<<<<<<< HEAD
             font-size: 0.85rem;
             margin-left: 0.5rem;
         }
@@ -199,8 +142,6 @@
         .footer {
             text-align: center;
             padding: 1.5rem;
-=======
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
             font-size: 0.9rem;
             color: var(--file-details);
             opacity: 0;
@@ -209,13 +150,6 @@
 
         @keyframes fadeIn {
             to { opacity: 1; }
-        }
-
-        .footer {
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            color: var(--file-details);
         }
     </style>
 </head>
@@ -231,18 +165,11 @@
 </div>
 
 <script>
-<<<<<<< HEAD
     (function() {
         async function fetchRepository() {
             try {
                 const response = await fetch('https://tatsi.eu/repo.json');
                 if (!response.ok) throw new Error('Failed to load repository');
-=======
-    async function fetchRepository() {
-        try {
-            const response = await fetch('https://tatsi.eu/repo.json');
-            if (!response.ok) throw new Error('Failed to load repository');
->>>>>>> 17fca91f8ccca81f8b9b61f7d954975f70b68129
 
                 const data = await response.json();
                 renderRepository(data.folders);
