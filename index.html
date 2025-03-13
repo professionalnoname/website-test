@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software Repository</title>
+    <meta name="color-scheme" content="dark">
     <style>
+        /* Catppuccin Mocha + Lavender Theme */
         :root {
-            --text-primary: #2d3436;
-            --bg-primary: #f8f9fa;
-            --accent: #2980b9;
+            --background: #1E1E2E;
+            --foreground: #CDD6F4;
+            --folder-bg: #313244;
+            --border: #45475A;
+            --hover-bg: #585B70;
+            --link: #B4BEFE;
+            --link-hover: #C6D0F5;
+            --file-details: #A6ADC8;
+            --lavender: #B4BEFE;
         }
 
         * {
@@ -19,25 +27,21 @@
         }
 
         body {
-            color: var(--text-primary);
+            background: var(--background);
+            color: var(--foreground);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
+            flex: 1;
             padding: 2rem 1rem;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInUp 0.8s ease-out forwards;
+            animation: fadeInUp 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
         }
 
         @keyframes fadeInUp {
@@ -51,18 +55,31 @@
             text-align: center;
             margin-bottom: 1.5rem;
             font-weight: 300;
-            color: var(--text-primary);
+            font-size: 2rem;
+        }
+
+        @keyframes rainbow {
+            0%   { color: #F5C2E7; }
+            20%  { color: #B4BEFE; }
+            40%  { color: #A6E3A1; }
+            60%  { color: #F9E2AF; }
+            80%  { color: #F38BA8; }
+            100% { color: #F5C2E7; }
+        }
+
+        h1 span.rainbow {
+            animation: rainbow 5s infinite alternate ease-in-out;
         }
 
         .folder {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--folder-bg);
             border-radius: 8px;
             margin-bottom: 1rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border);
             opacity: 0;
             transform: translateY(10px);
-            animation: itemEnter 0.4s ease-out forwards;
+            animation: itemEnter 0.6s ease-out forwards;
         }
 
         @keyframes itemEnter {
@@ -72,156 +89,95 @@
             }
         }
 
-        .folder:hover {
-            transform: translateY(-2px);
-        }
-
         .folder-header {
             padding: 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+
+        .folder-header:hover {
+            background: var(--hover-bg);
         }
 
         .folder-icon {
-            transition: transform 0.2s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .folder-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .file-item {
             display: block;
             padding: 0.75rem 1rem;
-            color: var(--accent);
+            color: var(--link);
             text-decoration: none;
-            transition: background 0.2s ease;
+            transition: all 0.2s ease;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .folder-content.expanded .file-item {
+            opacity: 1;
+            transform: translateX(0);
+            transition: all 0.3s ease 0.2s;
         }
 
         .file-item:hover {
-            background: rgba(41, 128, 185, 0.05);
+            background: rgba(180, 190, 254, 0.05);
+            padding-left: 1.25rem;
         }
 
         .file-details {
-            color: #7f8c8d;
+            color: var(--file-details);
             font-size: 0.85rem;
             margin-left: 0.5rem;
         }
 
-        .loading {
+        .footer {
             text-align: center;
-            color: #7f8c8d;
-            padding: 2rem;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--file-details);
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <canvas id="shaderCanvas"></canvas>
-    <div class="container">
-        <h1>Software Repository</h1>
-        <div id="repository" class="loading">Loading...</div>
-    </div>
+<div class="container">
+    <h1><span class="rainbow">S</span>oftware <span class="rainbow">R</span>epository</h1>
+    <div id="repository">Loading...</div>
+</div>
+
+<div class="footer">
+    "Remember me; Fuck the copyright"<br>
+    - jDev
+</div>
 
 <script>
     (function() {
-        // WebGL Shader
-        const vertexShader = `
-            attribute vec2 position;
-            void main() {
-                gl_Position = vec4(position, 0.0, 1.0);
-            }
-        `;
-
-        const fragmentShader = `
-            precision highp float;
-            uniform vec2 resolution;
-            uniform float time;
-
-            void main() {
-                vec2 uv = gl_FragCoord.xy/resolution.xy;
-                vec3 color = vec3(0.1);
-
-                // Animated gradient
-                float wave = sin(time + uv.x * 3.0) * 0.1;
-                color.r += smoothstep(0.4, 0.6, uv.y + wave);
-                color.g += smoothstep(0.3, 0.7, uv.y - wave);
-
-                // Subtle noise
-                color += fract(sin(dot(uv, vec2(12.9898,78.233))) * 43758.5453) * 0.02;
-
-                gl_FragColor = vec4(color, 0.15);
-            }
-        `;
-
-        function initShader() {
-            const canvas = document.getElementById('shaderCanvas');
-            const gl = canvas.getContext('webgl');
-
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                gl.viewport(0, 0, canvas.width, canvas.height);
-            }
-
-            const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
-            const buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-            const vertexShaderObj = gl.createShader(gl.VERTEX_SHADER);
-            gl.shaderSource(vertexShaderObj, vertexShader);
-            gl.compileShader(vertexShaderObj);
-
-            const fragmentShaderObj = gl.createShader(gl.FRAGMENT_SHADER);
-            gl.shaderSource(fragmentShaderObj, fragmentShader);
-            gl.compileShader(fragmentShaderObj);
-
-            const program = gl.createProgram();
-            gl.attachShader(program, vertexShaderObj);
-            gl.attachShader(program, fragmentShaderObj);
-            gl.linkProgram(program);
-            gl.useProgram(program);
-
-            const positionLocation = gl.getAttribLocation(program, "position");
-            gl.enableVertexAttribArray(positionLocation);
-            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-            const resolutionLocation = gl.getUniformLocation(program, "resolution");
-            const timeLocation = gl.getUniformLocation(program, "time");
-
-            resize();
-            window.addEventListener('resize', resize);
-
-            function animate(time) {
-                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
-                gl.uniform1f(timeLocation, performance.now() / 1000);
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-                requestAnimationFrame(animate);
-            }
-            animate(0);
-        }
-
-        // Repository Logic
         async function fetchRepository() {
             try {
-                const response = await fetch('https://tatsi.eu/repo.json', {
-                    cache: 'force-cache'
-                });
+                const response = await fetch('https://tatsi.eu/repo.json');
+                if (!response.ok) throw new Error('Failed to load repository');
 
-                if (!response.ok) throw new Error(response.statusText);
                 const data = await response.json();
-
-                document.getElementById('repository').classList.remove('loading');
                 renderRepository(data.folders);
+                document.getElementById('repository').classList.remove('loading');
             } catch (error) {
-                console.error('Fetch error:', error);
+                console.error('Error:', error);
                 document.getElementById('repository').innerHTML =
-                    '<p class="error">Error loading repository. Please try again later.</p>';
+                    '<p class="error">Error loading repository</p>';
             }
         }
 
@@ -237,7 +193,6 @@
                 const header = document.createElement('div');
                 header.className = 'folder-header';
                 header.innerHTML = `<span class="folder-icon">▾</span> ${folder.name}`;
-                header.onclick = () => toggleFolder(folderElement);
 
                 const content = document.createElement('div');
                 content.className = 'folder-content';
@@ -250,6 +205,7 @@
                     content.appendChild(fileLink);
                 });
 
+                header.addEventListener('click', () => toggleFolder(content, folderElement));
                 folderElement.append(header, content);
                 fragment.appendChild(folderElement);
             });
@@ -258,18 +214,14 @@
             container.appendChild(fragment);
         }
 
-        function toggleFolder(folder) {
-            const content = folder.querySelector('.folder-content');
-            const icon = folder.querySelector('.folder-icon');
+        function toggleFolder(content, folder) {
+            const isExpanded = content.classList.toggle('expanded');
+            content.style.maxHeight = isExpanded ? `${content.scrollHeight}px` : '0';
 
-            content.style.maxHeight = content.style.maxHeight ?
-                null : content.scrollHeight + 'px';
-            icon.style.transform = content.style.maxHeight ?
-                'rotate(0deg)' : 'rotate(-90deg)';
+            const icon = folder.querySelector('.folder-icon');
+            icon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(-90deg)';
         }
 
-        // Initialize
-        initShader();
         fetchRepository();
     })();
 </script>
